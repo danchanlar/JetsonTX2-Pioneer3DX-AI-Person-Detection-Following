@@ -1,0 +1,32 @@
+In Jetson, follow the steps below in order to find the dynamic IP
+
+nmcli device status
+ip -4 addr show wlan0
+
+Terminal 1
+ssh perception@JETSON_IP
+source /opt/ros/melodic/setup.bash
+source ~/catkin_ws/devel/setup.bash
+roscore
+
+ssh perception@192.168.170.167
+
+Terminal 2
+ssh perception@JETSON_IP
+source /opt/ros/melodic/setup.bash
+source ~/catkin_ws/devel/setup.bash
+
+rosrun rosaria RosAria _port:=/dev/ttyUSB0
+
+Terminal 3
+ssh perception@JETSON_IP
+source /opt/ros/melodic/setup.bash
+source ~/catkin_ws/devel/setup.bash
+
+Checks
+rostopic echo -n 1 /RosAria/motors_state
+rostopic echo -n 1 /RosAria/pose
+rostopic info /RosAria/cmd_vel
+
+# python -m py_compile ~/pioneer_forward_130cm_turn_90deg.py
+# python ~/pioneer_forward_130cm_turn_90deg.py
